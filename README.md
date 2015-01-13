@@ -1,6 +1,11 @@
 # SafeKVObject
 A safe Key-Value object processer
 
+## Require
+ARC, iOS 6.0+ or MacOSX 10.8+
+
+## Usage
+
 ```objective-c
 #import "SKVObject.h"
 ```
