@@ -8,7 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SKVObject : NSObject
+@protocol SKVValue <NSObject>
+
+@optional
+- (int)intValue;
+- (unsigned int)unsignedIntValue;
+- (long)longValue;
+- (unsigned long)unsignedLongValue;
+- (long long)longLongValue;
+- (unsigned long long)unsignedLongLongValue;
+- (float)floatValue;
+- (double)doubleValue;
+- (BOOL)boolValue;
+- (NSInteger)integerValue;
+- (NSUInteger)unsignedIntegerValue;
+- (NSString *)stringValue;
+
+@end
+
+@interface SKVObject : NSObject <SKVValue>
 
 + (instancetype)of:(id)object;
 + (instancetype)ofJSON:(NSString *)jsonString;
@@ -20,6 +38,9 @@
 - (id)objectForKeyedSubscript:(id)key;
 
 // For array & dictionary
-- (NSUInteger)count;
+@property (readonly) NSUInteger count;
+
+@property (readonly, copy) NSArray *arrayValue;
+@property (readonly, copy) NSDictionary *dictionaryValue;
 
 @end

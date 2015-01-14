@@ -7,6 +7,70 @@
 //
 
 #import "SKVObject.h"
+#import <objc/runtime.h>
+
+@interface SKVDefaultValue : NSObject <SKVValue>
+
+@end
+
+@implementation SKVDefaultValue
+
++ (SKVDefaultValue *)defaultValue {
+    static SKVDefaultValue *s_instance = nil;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        s_instance = [[SKVDefaultValue alloc] init];
+    });
+    
+    return s_instance;
+}
+
+- (int)intValue {
+    return 0;
+}
+
+- (unsigned int)unsignedIntValue {
+    return 0;
+}
+
+- (long)longValue {
+    return 0;
+}
+
+- (unsigned long)unsignedLongValue {
+    return 0;
+}
+
+- (long long)longLongValue {
+    return 0;
+}
+
+- (unsigned long long)unsignedLongLongValue {
+    return 0;
+}
+
+- (float)floatValue {
+    return 0;
+}
+
+- (double)doubleValue {
+    return 0;
+}
+
+- (BOOL)boolValue {
+    return NO;
+}
+
+- (NSInteger)integerValue {
+    return 0;
+}
+
+- (NSUInteger)unsignedIntegerValue {
+    return 0;
+}
+
+@end
 
 @interface SKVObject ()
 
@@ -50,22 +114,45 @@
 
 - (id)objectAtIndexedSubscript:(NSUInteger)idx {
     if ([self.value isKindOfClass:[NSArray class]]) {
+        
         if ([self.value count] <= idx)
             return nil;
         
         return [SKVObject of:[self.value objectAtIndex:idx]];
+        
+    } else if ([self.value isKindOfClass:[NSDictionary class]]) {
+        
+        id value = [self.value objectForKey:[@(idx) description]];
+        if (nil == value)
+            return nil;
+        
+        return [SKVObject of:value];
     }
+
     
     return nil;
 }
 
 - (id)objectForKeyedSubscript:(id)key {
     if ([self.value isKindOfClass:[NSDictionary class]]) {
+        
         id value = [self.value objectForKey:key];
         if (nil == value)
             return nil;
         
         return [SKVObject of:value];
+        
+    } else if ([self.value isKindOfClass:[NSArray class]]) {
+        
+        if (![key respondsToSelector:@selector(integerValue)])
+            return nil;
+        
+        NSUInteger idx = [key integerValue];
+        
+        if ([self.value count] <= idx)
+            return nil;
+        
+        return [SKVObject of:[self.value objectAtIndex:idx]];
     }
     
     return nil;
@@ -95,11 +182,13 @@
     if ([self.value isKindOfClass:[NSArray class]]) {
         NSString *result = @"[";
         NSUInteger count = [self count];
+
         for (NSUInteger i = 0; i < count; i ++) {
             result = [result stringByAppendingString:[self[i] description]];
             if (i != count - 1)
                 result = [result stringByAppendingString:@","];
         }
+        
         result = [result stringByAppendingString:@"]"];
         
         return result;
@@ -115,12 +204,62 @@
             if (i != count - 1)
                 result = [result stringByAppendingString:@","];
         }
+        
         result = [result stringByAppendingString:@"}"];
         
         return result;
     }
     
     return [super description];
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector {
+    if ([super respondsToSelector:aSelector])
+        return YES;
+    
+    struct objc_method_description hasMethod = protocol_getMethodDescription(@protocol(SKVValue), aSelector, NO, YES);
+    
+    if (NULL == hasMethod.name)
+        return NO;
+
+    return YES;
+}
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation {
+    SEL aSelector = [anInvocation selector];
+    
+    struct objc_method_description hasMethod = protocol_getMethodDescription(@protocol(SKVValue), aSelector, NO, YES);
+    
+    if (NULL != hasMethod.name) {
+        if ([self.value respondsToSelector:aSelector]) {
+            [anInvocation invokeWithTarget:self.value];
+            
+            return;
+        }
+    }
+    
+    [anInvocation invokeWithTarget:[SKVDefaultValue defaultValue]];
+}
+
+- (NSString *)stringValue {
+    if ([self.value respondsToSelector:@selector(stringValue)])
+        return [self.value stringValue];
+
+    return [self description];
+}
+
+- (NSArray *)arrayValue {
+    if ([self.value isKindOfClass:[NSArray class]])
+        return self.value;
+    
+    return nil;
+}
+
+- (NSDictionary *)dictionaryValue {
+    if ([self.value isKindOfClass:[NSDictionary class]])
+        return self.value;
+    
+    return nil;
 }
 
 @end

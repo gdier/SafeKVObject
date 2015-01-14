@@ -14,26 +14,26 @@ void test() {
     
     SKVObject *jsonObj = [SKVObject ofJSON:jsonString];
     
-    NSLog(@"%@", jsonObj[@"k"]);
-    NSLog(@"%@", jsonObj[3]);
+    NSLog(@"o[\"k\"] = %@", jsonObj[@"k"]);
+    NSLog(@"o[3] = %@", jsonObj[3]);
     
     NSDictionary *dict = @{@"k" : @"v",
-                           @"a" : @[@"0", @"1", @"2", @{@"dk": @"dv"}],
-                           @"d" : @{@"dk": @"dv"},
+                           @"a" : @[@"a", @"b"],
+                           @"da" : @{@"0" : @"a", @"1" : @"b", @"2" : @"c"},
+                           @"d" : @{@"dk": @{@"dkk": @"dvv"}},
                            @"n" : @1.3f,
                            @"null" : [NSNull null],
                            };
     
     SKVObject *obj = [SKVObject of:dict];
     
-    NSLog(@"%@", obj[@"d"][12]);
-    
-    
-    NSLog(@"%@", obj[@"k"]);
-    NSLog(@"array: %@", obj[@"a"][4]);
-    NSLog(@"dict: %@", obj[@"a"][3][@"dk"]);
-    NSLog(@"dict2: %@", obj[@"d"][@"dk2"]);
-    NSLog(@"f: %@", obj[@"n"]);
+    NSLog(@"o[\"d\"][\"dk\"][\"dkk\"] = %@", obj[@"d"][@"dk"][@"dkk"]);
+    NSLog(@"o[\"a\"][0] = %@", obj[@"a"][0]);
+    NSLog(@"o[\"a\"][2] = %@", obj[@"a"][2]);
+    NSLog(@"o[\"a\"][\"0\"] = %@", obj[@"a"][@"0"]);
+    NSLog(@"o[\"da\"][\"0\"] = %@", obj[@"da"][@"0"]);
+    NSLog(@"o[\"da\"][0] = %@", obj[@"da"][0]);
+    NSLog(@"o[\"n\"]: %f", [obj[@"n"] floatValue]);
     NSLog(@"null: %@, NSNull: %@", obj[@"null"], [NSNull null]);
 }
 
