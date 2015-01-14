@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		559683051A6667FA00F03E98 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 559683041A6667FA00F03E98 /* README.md */; };
 		5FB0CC101A6589AA00E55E68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FB0CC0F1A6589AA00E55E68 /* Foundation.framework */; };
 		5FB0CC1F1A6589E600E55E68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB0CC1D1A6589E600E55E68 /* main.m */; };
 		5FB0CC221A658A2900E55E68 /* SKVObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB0CC201A658A2900E55E68 /* SKVObject.m */; };
@@ -25,6 +26,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		559683041A6667FA00F03E98 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5FB0CC0C1A6589AA00E55E68 /* SafeKVObject */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SafeKVObject; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FB0CC0F1A6589AA00E55E68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5FB0CC1D1A6589E600E55E68 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -48,6 +50,7 @@
 		5FB0CC031A6589AA00E55E68 = {
 			isa = PBXGroup;
 			children = (
+				559683041A6667FA00F03E98 /* README.md */,
 				5FB0CC1D1A6589E600E55E68 /* main.m */,
 				5FB0CC1E1A6589E600E55E68 /* SafeKVObject-Prefix.pch */,
 				5FB0CC111A6589AA00E55E68 /* SafeKVObject */,
@@ -132,6 +135,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				559683051A6667FA00F03E98 /* README.md in Sources */,
 				5FB0CC1F1A6589E600E55E68 /* main.m in Sources */,
 				5FB0CC221A658A2900E55E68 /* SKVObject.m in Sources */,
 			);
@@ -245,6 +249,7 @@
 				5FB0CC1C1A6589AA00E55E68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

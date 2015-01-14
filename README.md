@@ -13,25 +13,36 @@ ARC, iOS 6.0+ or MacOSX 10.8+
 ```objective-c
 NSString *jsonString = @"{\"k\":\"v\"}";
 
+// create from json string
 SKVObject *jsonObj = [SKVObject ofJSON:jsonString];
 
-NSLog(@"%@", jsonObj[@"k"]);
-NSLog(@"%@", jsonObj[3]);
+// query by key
+NSLog(@"o[\"k\"] = %@", jsonObj[@"k"]);
+// query by index
+NSLog(@"o[3] = %@", jsonObj[3]);
 
 NSDictionary *dict = @{@"k" : @"v",
-                       @"a" : @[@"0", @"1", @"2", @{@"dk": @"dv"}],
-                       @"d" : @{@"dk": @"dv"},
-                       @"n" : @1.3f,
-                       @"null" : [NSNull null],
-                       };
+@"a" : @[@"a", @"b"],
+@"da" : @{@"0" : @"a", @"1" : @"b", @"2" : @"c"},
+@"d" : @{@"dk": @{@"dkk": @"dvv"}},
+@"n" : @1.3f,
+@"null" : [NSNull null],
+};
 
+// create from dictionary
 SKVObject *obj = [SKVObject of:dict];
 
-NSLog(@"%@", obj[@"k"]);
-NSLog(@"array: %@", obj[@"a"][4]);
-NSLog(@"dict: %@", obj[@"a"][3][@"dk"]);
-NSLog(@"dict2: %@", obj[@"d"][@"dk2"]);
-NSLog(@"%@", obj[@"d"][12]);
-NSLog(@"f: %@", obj[@"n"]);
+// nesting query
+NSLog(@"o[\"d\"][\"dk\"][\"dkk\"] = %@", obj[@"d"][@"dk"][@"dkk"]);
+NSLog(@"o[\"a\"][0] = %@", obj[@"a"][0]);
+// out of bound
+NSLog(@"o[\"a\"][2] = %@", obj[@"a"][2]);
+// array or dictionary? no matter
+NSLog(@"o[\"a\"][\"0\"] = %@", obj[@"a"][@"0"]);
+NSLog(@"o[\"da\"][\"0\"] = %@", obj[@"da"][@"0"]);
+NSLog(@"o[\"da\"][0] = %@", obj[@"da"][0]);
+// number value convert
+NSLog(@"o[\"n\"]: %f", [obj[@"n"] floatValue]);
+// NSNull will become nil
 NSLog(@"null: %@, NSNull: %@", obj[@"null"], [NSNull null]);
 ```
