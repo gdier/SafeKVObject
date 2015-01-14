@@ -22,12 +22,12 @@ NSLog(@"o[\"k\"] = %@", jsonObj[@"k"]);
 NSLog(@"o[3] = %@", jsonObj[3]);
 
 NSDictionary *dict = @{@"k" : @"v",
-@"a" : @[@"a", @"b"],
-@"da" : @{@"0" : @"a", @"1" : @"b", @"2" : @"c"},
-@"d" : @{@"dk": @{@"dkk": @"dvv"}},
-@"n" : @1.3f,
-@"null" : [NSNull null],
-};
+                       @"a" : @[@"a", @"b"],
+                       @"da" : @{@"0" : @"a", @"1" : @"b", @"2" : @"c"},
+                       @"d" : @{@"dk": @{@"dkk": @"dvv"}},
+                       @"n" : @1.3f,
+                       @"null" : [NSNull null],
+                       };
 
 // create from dictionary
 SKVObject *obj = [SKVObject of:dict];
