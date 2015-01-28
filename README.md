@@ -32,6 +32,23 @@ NSDictionary *dict = @{@"k" : @"v",
 // create from dictionary
 SKVObject *obj = [SKVObject of:dict];
 
+// Enumeration
+[obj enumerateKeysAndObjectsUsingBlock:^(id key, id object , BOOL *stop) {
+NSLog(@"o[%@] = %@", key, object);
+}];
+[obj[@"a"] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+NSLog(@"o[\"a\"][%lu] = %@", idx, obj);
+}];
+
+// fastEnumeration
+for (SKVObject *o in obj[@"a"]) {
+NSLog(@"o[\"a\"] = %@", o);
+}
+
+for (id key in obj) {
+NSLog(@"o[%@] = %@", key, obj[key]);
+}
+
 // nesting query
 NSLog(@"o[\"d\"][\"dk\"][\"dkk\"] = %@", obj[@"d"][@"dk"][@"dkk"]);
 NSLog(@"o[\"a\"][0] = %@", obj[@"a"][0]);
