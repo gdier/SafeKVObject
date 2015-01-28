@@ -26,7 +26,7 @@
 
 @end
 
-@interface SKVObject : NSObject <SKVValue>
+@interface SKVObject : NSObject <SKVValue, NSFastEnumeration>
 
 + (instancetype)of:(id)object;
 + (instancetype)ofJSON:(NSString *)jsonString;
@@ -36,6 +36,8 @@
 
 - (id)objectAtIndexedSubscript:(NSUInteger)idx;
 - (id)objectForKeyedSubscript:(id)key;
+- (void)enumerateKeysAndObjectsUsingBlock:(void (^)(id key, id obj, BOOL *stop))block;
+- (void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block;
 
 // For array & dictionary
 @property (readonly) NSUInteger count;

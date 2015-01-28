@@ -158,6 +158,31 @@
     return nil;
 }
 
+- (void)enumerateKeysAndObjectsUsingBlock:(void (^)(id key, id obj, BOOL *stop))block
+{
+    if ([self.value isKindOfClass:[NSDictionary class]]) {
+        
+        [self.value enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
+            block(key, [SKVObject of:object], stop);
+        }];
+        
+    }
+}
+
+- (void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block {
+    if ([self.value isKindOfClass:[NSArray class]]) {
+        
+        [self.value enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            block([SKVObject of:obj], idx, stop);
+        }];
+        
+    }
+}
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])buffer count:(NSUInteger)len {
+    return [self.value countByEnumeratingWithState:state objects:buffer count:len];
+}
+
 - (NSUInteger)count {
     if ([self.value isKindOfClass:[NSArray class]] || [self.value isKindOfClass:[NSDictionary class]]) {
         return [self.value count];
